@@ -1,0 +1,5 @@
+development:
+  db:
+    host: 0.0.0.0
+    database: pictie_development
+  storage: './db'
