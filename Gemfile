@@ -11,6 +11,7 @@ gem "sequel"
 gem "pg"                       
 gem "json"                     
 gem 'racksh'
+gem 'crypt'
 
 group :development, :test do
   gem 'rspec'

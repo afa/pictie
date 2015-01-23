@@ -3,3 +3,10 @@ development:
     host: 0.0.0.0
     database: pictie_development
   storage: './db'
+  key: '1234567890abcdef'
+staging:
+  db:
+    host: 0.0.0.0
+    database: pictie
+  storage: './db/pictures'
+  key: '1234567890abcdef'

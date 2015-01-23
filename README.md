@@ -2,25 +2,21 @@
 
 TODO: Write a gem description
 
-## Installation
+## NGINX upstream
+upstream pictie { server 0.0.0.0:3000; } #dev
+upstream pictie { server unix://...thin.sock; } #prod
 
-Add this line to your application's Gemfile:
+## NGINX location
+        location ~ /api/v1/picture/size/(\d+)-(\d+) {
+          set $width $1;
+          set $height $2;
+          proxy_pass http://pictie;
+          image_filter resize $width $height;
+        }
 
-```ruby
-gem 'pictie'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install pictie
-
-## Usage
-
-TODO: Write usage instructions here
+        location ~ /api/v1/picture {
+          proxy_pass http://pictie;
+        }
 
 ## Contributing
 
