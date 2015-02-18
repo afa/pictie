@@ -1,7 +1,5 @@
 # Pictie
 
-TODO: Write a gem description
-
 ## NGINX upstream
 upstream pictie { server 0.0.0.0:3000; } #dev
 upstream pictie { server unix://...thin.sock; } #prod
@@ -18,10 +16,10 @@ upstream pictie { server unix://...thin.sock; } #prod
           proxy_pass http://pictie;
         }
 
-## Contributing
+## Хотелки
 
-1. Fork it ( https://github.com/[my-github-username]/pictie/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+надо postges, etcd, libgd(v2)
+
+## A12n
+
+config/app.yml: задать ключ, storage

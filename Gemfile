@@ -12,6 +12,8 @@ gem "pg"
 gem "json"                     
 gem 'racksh'
 gem 'crypt'
+gem 'etcd'
+gem 'gd2-ffij'
 
 group :development, :test do
   gem 'rspec'

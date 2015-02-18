@@ -10,11 +10,10 @@ class Pictie < Sinatra::Base
 
   namespace '/api/v1' do
     get '/picture/size/:sz' do |sz|
-      url = URI.decode(params[:url])
+      sizes = sz.split('-').map(&:to_i)
+      url = URI.decode(params[:hash])
       if url
-        pict = Pict.take(url)
-        p pict
-        p pict.path
+        pict = Pict.take(url, sizes[0], sizes[1])
         send_file(pict.path, disposition: :inline, filename: File.basename(pict.url))
         # pict ? pict.send_pic : error(JSON.dump({error: 'Not found'}), 404)
       else
@@ -26,8 +25,6 @@ class Pictie < Sinatra::Base
       url = URI.decode(params[:url])
       if url
         pict = Pict.take(url)
-        p pict
-        p pict.path
         send_file(pict.path, disposition: :inline, filename: File.basename(pict.url))
         # pict ? pict.send_pic : error(JSON.dump({error: 'Not found'}), 404)
       else
