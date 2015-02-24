@@ -9,7 +9,7 @@ class Pict < Sequel::Model
     pict = where(crypto_hash: crypto, width: w, height: h).first
     unless pict
       orig = load_original(crypto)
-      p orig
+      return orig unless w > 0 && h > 0
       pict = create(crypto_hash: crypto, url: orig.url, width: w, height: h, original: false)
       img = GD2::Image.import(orig.path)
       # if img.aspect.to_f * h > w
@@ -20,13 +20,13 @@ class Pict < Sequel::Model
       rszd = img.resize(w, h)
       case File.extname(pict.url).downcase
       when '.jpg'
-        buf = rszd.jpg(75)
+        buf = rszd.jpeg(75)
       when '.png'
         buf = rszd.png
       when '.gif'
         buf = rszd.gif
       else
-        buf = rszd.jpg(75)
+        buf = rszd.jpeg(75)
       end
       FileUtils.mkdir_p(File.dirname(pict.path))
       File.open(pict.path, 'w'){|f| f.write(buf) }

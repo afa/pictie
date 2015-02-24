@@ -22,9 +22,10 @@ class Pictie < Sinatra::Base
     end
 
     get '/picture' do
-      url = URI.decode(params[:url])
+      url = URI.decode(params[:hash])
       if url
         pict = Pict.take(url)
+        p pict
         send_file(pict.path, disposition: :inline, filename: File.basename(pict.url))
         # pict ? pict.send_pic : error(JSON.dump({error: 'Not found'}), 404)
       else
