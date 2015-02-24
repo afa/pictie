@@ -35,30 +35,30 @@ class Pict < Sequel::Model
   end
 
 
-  def self.dc(bf, str)
-    cryptStream = StringIO.new(str)
-    plainStream = StringIO.new('')
-    chain = cryptStream.read(8)
-    plainStream.write(bf.decrypt_block(chain))
+#   def self.dc(bf, str)
+#     cryptStream = StringIO.new(str)
+#     plainStream = StringIO.new('')
+#     chain = cryptStream.read(8)
+#     plainStream.write(bf.decrypt_block(chain))
 
-    while (block = cryptStream.read(8))
-      decrypted = bf.decrypt_block(block)
-      plainText = decrypted ^ chain
-      plainStream.write(plainText) unless cryptStream.eof?
-      chain = block
-    end
-    p plainStream.string
-    plainStream.string
-  end
+#     while (block = cryptStream.read(8))
+#       decrypted = bf.decrypt_block(block)
+#       plainText = decrypted ^ chain
+#       plainStream.write(plainText) unless cryptStream.eof?
+#       chain = block
+#     end
+#     p plainStream.string
+#     plainStream.string
+#   end
 
   def self.load_original(crypto)
     pict = Pict.where(crypto_hash: crypto, original: true).first
     unless pict
-      key = Digest::MD5.hexdigest(CONFIG['key'] || ENV['key'])
+      key = Digest::MD5.digest(CONFIG['key'] || ENV['key'])
       bf = Crypt::Blowfish.new(key)
 
       # uri = dc(bf, Base64.urlsafe_decode64(crypto)).to_s.strip
-      uri = bf.decrypt_string(Base64.urlsafe_decode64(crypto)).to_s.strip
+      uri = bf.decrypt_string(Base64.urlsafe_decode64(crypto)).tap{|c| p c }.to_s.strip
       p uri
       res = Net::HTTP.get_response(URI(uri))
       if res.is_a?(Net::HTTPSuccess)
