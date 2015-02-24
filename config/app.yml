@@ -10,4 +10,4 @@ staging:
     host: 0.0.0.0
     database: pictie
   storage: './db/pictures'
-  key: 'go0ddaytodie'
+  key: 'holyshit'
